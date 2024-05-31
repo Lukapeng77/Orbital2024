@@ -2,6 +2,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from "@mui/material";
+import io from 'socket.io-client';
+import PostList from './PostList';
+
+const socket = io('http://localhost:3001'); // Connect to the backend server
 
 
 function ForumPage() {
@@ -16,7 +20,7 @@ function ForumPage() {
     const navigate = useNavigate();
     
     useEffect(() => {
-        fetchPosts();
+       /* fetchPosts();
     }, []);
 
     const fetchPosts = () => {
@@ -24,6 +28,22 @@ function ForumPage() {
             .then(response => response.json())
             .then(data => setPosts(data.posts))
             .catch(error => console.error('Failed to fetch posts:', error));
+    };*/
+    socket.on('updatePosts', updatedPosts => {
+        setPosts(updatedPosts);
+    });
+
+    return () => {
+        socket.off('updatePosts');
+    };
+}, []);
+
+    const handleVote = (postId, delta) => {
+        socket.emit('votePost', { postId, delta });
+    };
+
+    const handleReply = (postId, content) => {
+        socket.emit('replyToPost', { postId, content });
     };
 
     const handleChange = (event) => {
@@ -39,9 +59,12 @@ function ForumPage() {
         const formData = new FormData();
         formData.append('content', postData.content);
         if (postData.media) formData.append('media', postData.media);
+        socket.emit('newPost', { content: postData.content, media: postData.media });
 
+        // Reset the form
+        setPostData({ content: '', media: null });
         // Assuming you have an API endpoint to handle the post submission
-        fetch('/api/forum/posts', {
+        /*fetch('/api/forum/posts', {
             method: 'POST',
             body: formData
         })
@@ -54,15 +77,16 @@ function ForumPage() {
             setPostData({
                 content: '',
                 media: null
-            });
+            });*/
             if (fileInputRef.current) fileInputRef.current.value = '';
-            navigate('/forum');//adjust the route as necessary
-        })
-        .catch(error => {
+            //navigate('/forum');//adjust the route as necessary
+    };
+        /*.catch(error => {
             console.error('Error:', error);
             setError(error.message);
         });
-    };
+    };*/
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <center>
@@ -101,6 +125,7 @@ function ForumPage() {
                     </div>
                 ))}
             </div>
+            <PostList posts={posts} onVote={handleVote} onReply={handleReply} />
         </center>
     );
 }

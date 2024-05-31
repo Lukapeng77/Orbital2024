@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/UserProfile.css'
+import axios from 'axios';
 
-function EditProfile() {
+function EditProfile( {username} ) {
   // State for user profile data
   const [profile, setProfile] = useState({
     photo: null,
@@ -40,6 +41,13 @@ function EditProfile() {
           setLoading(false); // Handle errors or no profile found
         });
 }, [navigate]);*/
+
+useEffect(() => {
+  // Load the current profile
+  axios.get(`http://localhost:3001/profile/:username ${username}`)
+      .then(response => setProfile(response.data))
+      .catch(error => console.error('Error fetching profile:', error));
+}, [username]);
 
   // Handle image file change
   const handleImageChange = (event) => {
@@ -87,25 +95,31 @@ function EditProfile() {
   };
 
     // Here you would typically send the profile data to a backend server
-    fetch('http://localhost:3001/profile:username', {
+    fetch('http://localhost:3001/profile/:username', {
       method: 'POST', // or 'PUT' if your API requires
       headers: {
           'Content-Type': 'application/json',
       },
       body: JSON.stringify(submissionData)
   })
-  //.then(response => response.json())
-  .then(response => {
+  .then(response => response.json())
+  /*.then(response => {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
     return response.json();
-})
+})*/
   .then(() => {
       navigate('/profile/saved');
   })
+
+  axios.put(`http://localhost:3001/profile/:username${username}`, profile)
+            .then(response => {
+                alert('Profile updated successfully!');
+            })
   .catch(error => {
       console.error('Error updating profile:', error);
+      alert('Failed to update profile.');
   });
 };
     // Redirect to the saved profile page

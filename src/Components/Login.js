@@ -13,38 +13,32 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
+    setSuccess('');
 
     try{
     // Perform login
     const response = await axios.post('http://localhost:3001/login', {
       username, password});
       console.log('Login successful', response.data);
-      navigate('/profile');
-       /*     method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
-        });
-
-        const data = await response.json();  // Assuming the backend sends JSON response
-    // Here you'd typically check credentials against your backend
-
-    // Simulate successful login:
-    if(response.ok){
-    setSuccess("Login successful!");
-    setTimeout(() => {
-      navigate('/home');  // Redirects user to a home page or dashboard after login
-    }, 2000);  // Delays navigation for 2 seconds to allow user to see success message
-    }else{
-       throw new Error(data.message || "Login failed. Please try again.");
-    }*/
+      navigate('/profile/edit');
     } catch (error) {
       //setError("Login failed. Please try again.");
       console.error('Login error', error);
+      alert('Failed to Login.');
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      const response = await axios.post('http://localhost:3001/reset-password', { username });
+      if (response.data.success) {
+        setSuccess('Password reset email sent. Please check your inbox.');
+      } else {
+        setError('Failed to send password reset email. Please try again.');
+      }
+    } catch (error) {
+      setError('Failed to send password reset email. Please try again.');
+      console.error('Reset password error', error);
     }
   };
 
@@ -69,6 +63,9 @@ function Login() {
           required
         />
         <button type="submit">Login</button>
+        <button type="button" onClick={handleResetPassword}>Reset Password</button>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {success && <div style={{ color: 'green' }}>{success}</div>}
         <p>Don't have an account? <Link to="/register">Register here</Link></p>
         <p>
         <Link to="/">Back to Homepage</Link>  <Link to="/forum">Go to Forum</Link>
