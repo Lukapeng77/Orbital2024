@@ -1,0 +1,3 @@
+[submodule "suppeer"]
+	path = suppeer
+	url = https://github.com/Lukapeng77/suppeer.git
