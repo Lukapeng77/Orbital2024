@@ -1,0 +1,54 @@
+
+.user-profile {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .user-profile h2, .user-profile h3 {
+    color: #333;
+  }
+  
+  .user-profile p, .user-profile li {
+    color: #666;
+  }
+  
+  .user-profile ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .user-profile label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .user-profile input[type="text"],
+  .user-profile input[type="email"],
+  .user-profile textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  .user-profile button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+
+  

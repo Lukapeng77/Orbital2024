@@ -1,0 +1,47 @@
+
+.contacts-list {
+    width: 600px; /* Fixed width */
+    overflow-y: auto; /* Allows scrolling */
+    box-sizing: content-box;
+    box-shadow: none;
+    height: 80vh; /* Full height */
+  }
+  
+  .contact-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee; /* Separates individual contact items */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-sizing: border-box;
+  }
+  
+  .contact-item:hover, .contact-item.active {
+    background-color: #f4f4f4; /* Highlight on hover and active */
+  }
+  
+  .contact-avatar {
+    width: 50px; /* Fixed avatar size */
+    height: 50px;
+    border-radius: 50%; /* Circular avatars */
+    margin-right: 15px;
+  }
+  
+  .contact-info {
+    flex-grow: 1; /* Takes up remaining space */
+  }
+  
+  .contact-name {
+    margin: 0;
+    color: #333; /* Dark text for better readability */
+    font-size: 1.1em; /* Slightly larger text */
+  }
+  
+  .contact-last-message {
+    margin: 0;
+    color: #666; /* Lighter text for less emphasis */
+    font-size: 0.9em;
+  }
+  
