@@ -20,7 +20,7 @@ function Login() {
     const response = await axios.post('http://localhost:3001/login', {
       username, password});
       console.log('Login successful', response.data);
-      navigate('/profile/edit');
+      navigate('/profile');
     } catch (error) {
       //setError("Login failed. Please try again.");
       console.error('Login error', error);

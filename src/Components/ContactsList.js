@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import Navigation from './Navigation';
 
 function ContactsList({ onSelectContact }) {
-  const [contacts, setContacts] = useState([]);
+  const [, setContacts] = useState([]);
   const [activeContactId, setActiveContactId] = useState(null);
 
   const navigate = useNavigate(); 
@@ -28,25 +28,28 @@ function ContactsList({ onSelectContact }) {
       });
   }, []); // Empty dependency array ensures this effect runs only once after initial render
 
-  const handleSelectContact = (contact) => {
+  /*const handleSelectContact = (contact) => {
     setActiveContactId(contact.id);
     onSelectContact(contact);
     navigate(`/chat/${contact.id}`); // Navigate to the chat room with this contact
-  };
+  };*/
   
   // In your App component or wherever you manage state
-/*const contacts = [
-  { id: 1, name: 'Alice Smith', avatarUrl: '/avatars/alice.jpg', lastMessage: 'See you soon!' },
-  { id: 2, name: 'Bob Johnson', avatarUrl: '/avatars/bob.jpg', lastMessage: 'Got the tickets!' },
-  // More contacts
+const contacts = [
+  { id: 1, name: 'Luka', avatarUrl: 'https://ui-avatars.com/api/?name=Luka', lastMessage: 'See you soon!' },
+  { id: 2, name: 'Bob', avatarUrl: 'https://ui-avatars.com/api/?name=Bob', lastMessage: 'Got the tickets!' },
+  { id: 3, name: 'Alice', avatarUrl: 'https://ui-avatars.com/api/?name=Alice', lastMessage: 'Nice to meet you!' },
+  { id: 4, name: 'Amy', avatarUrl: 'https://ui-avatars.com/api/?name=Amy', lastMessage: 'Have a good day!' },
+  { id: 5, name: 'John', avatarUrl: 'https://ui-avatars.com/api/?name=John', lastMessage: 'Can you show me the full process? Thank you!' },
+  { id: 6, name: 'Tom', avatarUrl: 'https://ui-avatars.com/api/?name=Tom', lastMessage: 'See you tomorrow.' },
 ];
 
-// Function to handle contact selection
+ //Function to handle contact selection
 const handleSelectContact = (contact) => {
   console.log('Selected:', contact.name);
 };
 
-<ContactsList contacts={contacts} onSelectContact={handleSelectContact} />*/
+<ContactsList contacts={contacts} onSelectContact={handleSelectContact} />
 
   return (
     <div className="contacts-list">

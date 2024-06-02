@@ -25,16 +25,12 @@ function UserProfile() {
       });
   }, [navigate]);
 
-  /*if (loading) {
+  if (loading) {
     return <div>Loading...</div>;
-  }*/
+  }
 
-  // Form for creating or editing the profile
-  // Return JSX for UserProfile form here...
-  
-  return(
-  <div><EditProfile /></div>
-);
+  // For creating or editing the profile
+  return <EditProfile />;
 }
 
 export default UserProfile;

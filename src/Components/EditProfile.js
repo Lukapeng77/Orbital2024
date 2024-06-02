@@ -113,7 +113,7 @@ useEffect(() => {
       navigate('/profile/saved');
   })
 
-  axios.put(`http://localhost:3001/profile/:username${username}`, profile)
+  axios.put(`http://localhost:3001/profile/${username}`, profile)
             .then(response => {
                 alert('Profile updated successfully!');
             })
