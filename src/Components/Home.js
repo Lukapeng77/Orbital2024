@@ -1,13 +1,11 @@
 
 import React from 'react';
 import logoImage from "./suppeer_logo.webp";
-import { Box, Typography, Container, Link, IconButton} from '@mui/material';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { useAuth } from './AuthContext';  
+import { Box, Typography, Container, Link } from '@mui/material';
+//import { useAuth } from './AuthContext';  
 
 function Home() {
-  const { user, logout } = useAuth(); 
+  //const { user, logout } = useAuth(); 
 
   return (
   <Container component="main" sx={{ mt: 8, mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
@@ -27,15 +25,6 @@ function Home() {
       <Typography>This is the home page. Feel free to navigate around!</Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
       <Link href="/login" color="primary">Login</Link>  <Link href="/register" color="primary">Register</Link>
-      {user ? (
-          <IconButton color="inherit" size ="small" onClick={logout}>
-            <LogoutIcon />
-          </IconButton>
-        ) : (
-          <IconButton color="inherit">
-            <LoginIcon />
-          </IconButton>
-        )}
       </Box>
       </Box>
     </Container>
