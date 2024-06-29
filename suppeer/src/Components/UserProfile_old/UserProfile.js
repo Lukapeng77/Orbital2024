@@ -1,8 +1,6 @@
-// src/components/UserProfile.js
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import EditProfile from './EditProfile';
-
 
 function UserProfile() {
   const [profile, setProfile] = useState(null);
@@ -10,7 +8,7 @@ function UserProfile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/profile:username') // Fetch the user profile from your API
+    fetch('http://localhost:3001/api/profile') // Fetch the user profile from your API
       .then(response => response.json())
       .then(data => {
         if (data) {
@@ -30,7 +28,7 @@ function UserProfile() {
   }
 
   // For creating or editing the profile
-  return <EditProfile />;
+  return <EditProfile/>;
 }
 
 export default UserProfile;

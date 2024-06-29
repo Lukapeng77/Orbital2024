@@ -1,30 +1,43 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function SavedProfile() {
-    const [profile, setProfile] = useState(null);
+function SavedProfile({user_id}) {
+    const [profile, setProfile] = useState({
+    photo: null,
+    username: '',
+    email: '',
+    bio: '',
+    skills: '',
+    projects: ''
+});
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:3001/profile:username')
-            .then(response => 
-                /*if (!response.ok) {
-                    throw new Error('Failed to fetch');
-                }*/
-                 response.json())
+        fetch('http://localhost:3001/api/profile')
+            //.then(response => response.json())
+            .then(response => {
+                // Check Content-Type in headers
+                const contentType = response.headers.get('Content-Type');
+                if (contentType.includes('application/json')) {
+                    return response.json(); // parse JSON if the content type is correct
+                }
+                throw new Error('Expected JSON but received:', contentType);
+            })
             .then(data => {
                  if(data && data.profile){        
                 setProfile(data);
-            }/*else{
+                console.log('Received JSON:', data);
+            }else{
                  navigate('/profile/edit');
-            }*/
+            }
         })
             .catch(error => {
                 console.error('Failed to fetch profile:', error);
-                //setError(error.message);
+                setError(error.message);
             });
     }, [navigate]);
     /*const fetchProfile = async () => {
@@ -48,7 +61,26 @@ function SavedProfile() {
     };
 
     fetchProfile();
-}, []);*/
+}, [])*/
+
+const handleUpdate = (event) => {
+    event.preventDefault();
+    console.log("Profile Updated:", profile);
+    const updateData = {
+      ...profile,
+      skills: profile.skills.split(',').map(skill => skill.trim()),
+      projects: profile.projects.split(',').map(project => project.trim())
+  };
+    axios.put(`http://localhost:3001/api/profile/${user_id}`, profile)
+            .then(response => {
+                alert('Profile updated successfully!');
+        return response.json(updateData);  
+  })
+  .catch(error => {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile.');
+  });
+}
 
     if (error) {
         return <div>
@@ -73,12 +105,12 @@ function SavedProfile() {
             <p>Username: {profile.username}</p>
             <p>Email: {profile.email}</p>
             <p>Bio: {profile.bio}</p>
-            <p>Skills: {profile.skills.join(', ')}</p>
-            <p>Projects: {profile.projects.join(', ')}</p>
+            <p>Skills: {profile.skills}</p>
+            <p>Projects: {profile.projects}</p>
             </div>
-            <Link to="/profile/edit">Edit Profile Again</Link>
             <button onClick={() => console.log('Edit Profile')}>Edit Profile</button>
-            <button onClick={() => console.log('Log Out')}>Log Out</button>
+            <button onSubmit={handleUpdate}> Update Profile</button>
+            <button><Link to="/tutorialboard">Go to Tutorial Board</Link></button>
         </div>
     );
 }

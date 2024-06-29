@@ -1,51 +1,49 @@
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link as RouterLink} from 'react-router-dom';
-import Login from './Components/Login';
-import Registration from './Components/Registration';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Login from './Components/Register&Login/Login';
+import Registration from './Components/Register&Login/Registration';
 import Home from './Components/Home';
 import PrivateRoute from './Components/PrivateRoute';  
-import EditProfile from './Components/EditProfile';
-import SavedProfile from './Components/SavedProfile';
-import UserProfile from './Components/UserProfile';
-import ForumPage from './Components/ForumPage';
-import { Button, AppBar, Toolbar, } from '@mui/material';
-import ContactsList from './Components/ContactsList';
-import ChatRoom from './Components/ChatRoom';
-import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ForumIcon from '@mui/icons-material/Forum';
-import ContactsIcon from '@mui/icons-material/Contacts';
-import { AuthProvider } from '../src/Components/AuthContext';
-import './styles/App.css'
+//import EditProfile from './Components/EditProfile';
+//import SavedProfile from './Components/SavedProfile';
+//import UserProfile from './Components/UserProfile';
+
+//import ContactsList from './Components/ContactsList';
+//import ChatRoom from './Components/ChatRoom';
+//import './styles/App.css';
+
+import AddProfile from './Components/UserProfile_new/AddProfile';
+//import Profile from './Components/UserProfile_new/Profile';
+import SearchView from './Components/views/SearchView';
+import PostView from './Components/views/PostView';
+import CreatePostView from './Components/views/CreatePostView';
+import ExploreView from './Components/views/ExploreView';
+import ProfileView from './Components/views/ProfileView';
+import UpdateProfilePage from './Components/UserProfile_new/UpdateProfilePage';
+import AuthView from './Components/views/AuthView';
+import { isLoggedIn } from './helpers/authHelper';
+import LoginView from './Components/views/LoginView';
+import SignupView from './Components/views/SignupView';
 
 function App() {
+	const user = isLoggedIn;
+	console.log(user);
 	return (
 		<Router>
-         <AuthProvider>
-		 <div>
-		 <AppBar position="static" color="primary">
-    <Toolbar>
-	<Button color="inherit" startIcon={<HomeIcon />} component={RouterLink} to="/">Home</Button>
-    <Button color="inherit" startIcon={<AccountCircleIcon />} component={RouterLink} to="/profile">User Profile</Button>
-    <Button color="inherit" startIcon={<ForumIcon />} component={RouterLink} to="/forum">Forum</Button>
-    <Button color="inherit" startIcon={<ContactsIcon />} component={RouterLink} to="/contactslist">Contacts List</Button>
-    </Toolbar>
-	      </AppBar>
 		<Routes>
-		<Route path="/" element ={<Home />} />  // Default home page route
+		<Route path="/" element ={ <Home />} /> 
 		<Route path="/login" element ={<Login />} />
 		<Route path="/register" element ={<Registration />} />
-		<Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-		<Route path="/profile" element={<UserProfile />} />
-		<Route path="/profile/edit" element={<EditProfile />} />
-		<Route path="/profile/saved" element={<SavedProfile />} />  
-		<Route path="/forum" element={<ForumPage />} /> 
-		<Route path="/contactslist" element={<ContactsList />} /> 
-        <Route path="/chat/:contactId" element={<ChatRoom />} />
+		<Route path="/auth" element ={user ? <AuthView /> : <Navigate to='/'/>} />
+		<Route path="/posts/create" element={user ? <PrivateRoute><CreatePostView /></PrivateRoute> : <Navigate to='/auth'/>} />
+
+		<Route path="/users/:id" element={user ? <ProfileView />: <Navigate to='/auth'/>} />
+		<Route path="/explore" element={user ? <ExploreView /> : <Navigate to='/auth'/>} /> 
+		<Route path="/posts/:id" element={<PostView />} /> 
+        <Route path="/search" element={<SearchView />} />
+        <Route path="/profile" element={user ? <AddProfile/> : <Navigate to='/auth'/>} /> 
 		</Routes>
-		</div>
-		</AuthProvider>
 		</Router>
 	);
 }

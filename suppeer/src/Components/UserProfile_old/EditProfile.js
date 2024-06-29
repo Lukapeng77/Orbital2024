@@ -1,12 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import '../styles/UserProfile.css'
 import axios from 'axios';
 
-function EditProfile( {username} ) {
+function EditProfile( {user_id} ) {
+  
+
   // State for user profile data
   const [profile, setProfile] = useState({
+    //user_id: null,
     photo: null,
     username: '',
     email: '',
@@ -44,10 +48,12 @@ function EditProfile( {username} ) {
 
 useEffect(() => {
   // Load the current profile
-  axios.get(`http://localhost:3001/profile/:username ${username}`)
+  axios.get(`http://localhost:3001/api/profile ${user_id}`)
       .then(response => setProfile(response.data))
       .catch(error => console.error('Error fetching profile:', error));
-}, [username]);
+
+
+}, [user_id]);
 
   // Handle image file change
   const handleImageChange = (event) => {
@@ -87,7 +93,7 @@ useEffect(() => {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    //console.log("Profile Submitted:", profile);
+    console.log("Profile Submitted:", profile);
     const submissionData = {
       ...profile,
       skills: profile.skills.split(',').map(skill => skill.trim()),
@@ -95,7 +101,7 @@ useEffect(() => {
   };
 
     // Here you would typically send the profile data to a backend server
-    fetch('http://localhost:3001/profile/:username', {
+    fetch('http://localhost:3001/api/profile', {
       method: 'POST', // or 'PUT' if your API requires
       headers: {
           'Content-Type': 'application/json',
@@ -112,16 +118,21 @@ useEffect(() => {
   .then(() => {
       navigate('/profile/saved');
   })
+};
 
-  axios.put(`http://localhost:3001/profile/${username}`, profile)
+  const handleUpdate = (event) => {
+    
+    axios.put(`http://localhost:3001/api/profile/${user_id}`, profile)
             .then(response => {
                 alert('Profile updated successfully!');
-            })
+        return response.json();  
+  })
   .catch(error => {
       console.error('Error updating profile:', error);
       alert('Failed to update profile.');
   });
-};
+
+  }
     // Redirect to the saved profile page
     //navigate('/profile/saved');  // Adjust this path to where the saved profiles are displayed
   
@@ -129,7 +140,7 @@ useEffect(() => {
       return <div>Loading...</div>;
     }*/
   return (
-    <form className="user-profile" onSubmit={handleSubmit}>
+    <form className="user-profile" onSubmit={handleSubmit} >
       <h2>User Profile</h2>
       <label>
         Upload Photo:
@@ -161,7 +172,8 @@ useEffect(() => {
         Projects:
         <input type="text" name="projects" value={profile.projects} onChange={handleChange} />
       </label>
-      <button type="submit">Update Profile</button>
+      <button type={handleSubmit}>Submit Profile</button>
+      <button type={handleUpdate}>Update Profile</button>
     </form>
   );
 }
