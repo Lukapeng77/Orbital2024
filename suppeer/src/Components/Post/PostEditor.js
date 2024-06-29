@@ -6,33 +6,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-	CloseButton,
-	Flex,
-	FormControl,
-	Image,
-	Input,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
-	Text,
-	Textarea,
-	useColorModeValue,
-	useDisclosure,
-} from "@chakra-ui/react";
 import { Box } from "@mui/system";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../api/posts";
 import ErrorAlert from "../ErrorAlert";
 import { isLoggedIn } from "../../helpers/authHelper";
 import HorizontalStack from "../util/HorizontalStack";
 import UserAvatar from "../UserAvatar";
-import { BsFillImageFill } from "react-icons/bs";
 
 const PostEditor = () => {
   const navigate = useNavigate();
@@ -113,13 +94,6 @@ const PostEditor = () => {
             error={errors.content !== undefined}
             helperText={errors.content}
             required
-          />
-          <Input type='file' hidden ref={imageRef} onChange={handleImageChange} />
-
-          <BsFillImageFill
-           style={{ marginLeft: "5px", cursor: "pointer" }}
-           size={25}
-           onClick={() => imageRef.current.click()}
           />
           <ErrorAlert error={serverError} />
           <Button

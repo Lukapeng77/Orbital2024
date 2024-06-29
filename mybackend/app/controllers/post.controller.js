@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Post = require("../models/post.model");
-//const User = require("../models/user.model");
+const PostLike = require("../models/postLike.model");
 const Comment = require("../models/comment.model");
 const paginate = require("../util/paginate");
 const cooldown = new Set();
@@ -175,6 +175,42 @@ const getPosts = async (req, res) => {
 	}
 };
 
+const setLiked = async (posts, userId) => {
+	let searchCondition = {};
+	if (userId) searchCondition = { userId };
+  
+	const userPostLikes = await PostLike.find(searchCondition); //userId needed
+  
+	posts.forEach((post) => {
+	  userPostLikes.forEach((userPostLike) => {
+		if (userPostLike.postId.equals(post._id)) {
+		  post.liked = true;
+		  return;
+		}
+	  });
+	});
+  };
+  
+const enrichWithUserLikePreview = async (posts) => {
+	const postMap = posts.reduce((result, post) => {
+	  result[post._id] = post;
+	  return result;
+	}, {});
+  
+	const postLikes = await PostLike.find({
+	  postId: { $in: Object.keys(postMap) },
+	})
+	  .limit(200)
+	  .populate("userId", "username");
+  
+	postLikes.forEach((postLike) => {
+	  const post = postMap[postLike.postId];
+	  if (!post.userLikePreview) {
+		post.userLikePreview = [];
+	  }
+	  post.userLikePreview.push(postLike.userId);
+	});
+};
 
 module.exports = {
 	getPost,
