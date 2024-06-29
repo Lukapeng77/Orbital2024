@@ -5,7 +5,6 @@ import { Box, Typography, Container, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';  
 import { Button, AppBar, Toolbar, } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import ForumIcon from '@mui/icons-material/Forum';
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
