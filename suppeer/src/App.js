@@ -20,11 +20,8 @@ import PostView from './Components/views/PostView';
 import CreatePostView from './Components/views/CreatePostView';
 import ExploreView from './Components/views/ExploreView';
 import ProfileView from './Components/views/ProfileView';
-import UpdateProfilePage from './Components/UserProfile_new/UpdateProfilePage';
 import AuthView from './Components/views/AuthView';
 import { isLoggedIn } from './helpers/authHelper';
-import LoginView from './Components/views/LoginView';
-import SignupView from './Components/views/SignupView';
 
 function App() {
 	const user = isLoggedIn;
