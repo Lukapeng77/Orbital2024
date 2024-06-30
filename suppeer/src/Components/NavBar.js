@@ -1,12 +1,10 @@
 import { useTheme } from "@emotion/react";
 import {
-  Avatar,
   IconButton,
   Stack,
   TextField,
   Typography,
   Button,
-  InputAdornment,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -117,7 +115,7 @@ const NavBar = () => {
             <IconButton component={Link} to={"/profile"}>
                 <AccountBoxIcon />
               </IconButton>
-              <IconButton component={Link} to={"/explore"}>
+              <IconButton component={Link} to={"/posts/create"}>
                 <ForumIcon />
               </IconButton>
               <IconButton component={Link}  to={"/users/" + username}>

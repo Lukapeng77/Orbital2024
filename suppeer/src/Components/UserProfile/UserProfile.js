@@ -4,7 +4,7 @@ import NavBar from "../NavBar";
 import '../../styles/UserProfile.css'
 import Profile from "./Profile"
 
-const AddProfile = () => {
+const UserProfile = () => {
 
   return (
     <Container>
@@ -14,4 +14,4 @@ const AddProfile = () => {
 );
 };
 
-export default AddProfile;
+export default UserProfile;

@@ -19,7 +19,7 @@ function Home() {
     <Button color="inherit" startIcon={<AccountBoxOutlinedIcon />} href="/profile">User Profile</Button>
     </Box>
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-    <Button color="inherit" startIcon={<ForumIcon />} href="/explore">Explore Posts Here!</Button>
+    <Button color="inherit" startIcon={<ForumIcon />} href="/dashboard">Explore Posts Here!</Button>
     <Button color="inherit" startIcon={<PostAddOutlinedIcon />} href="/posts/create">Create a Post!</Button>
     </Box>
     </Toolbar>

@@ -18,12 +18,12 @@ function Login() {
     setError('');
     setSuccess('');
 
-    // Perform login
+    // Perform login opration 
     axios.post('http://localhost:3001/api/login', {username, password})
       .then(res => {
       console.log('Login successful', res.data);
       loginUser(res.data);
-      navigate('/explore')
+      navigate('/dashboard')
     })
   .catch (error =>
       //console.log('Login error', error)

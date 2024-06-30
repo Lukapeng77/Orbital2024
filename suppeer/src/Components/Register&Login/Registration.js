@@ -18,7 +18,7 @@ function Registration() {
     event.preventDefault();
     setError('');
 
-    //Simple validation to check if password and confirm password match
+    //Validation to check if password and confirm password match
     if (password !== confirmPassword) {
       alert("Passwords do not match.");
       return;
