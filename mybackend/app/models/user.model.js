@@ -26,6 +26,16 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  pic: {
+    type: String,
+    default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+  },
+  skills:{
+    type: String,
+  },
+  projects:{
+    type: String,
+  }
 }, {
   timestamps: true
 });
