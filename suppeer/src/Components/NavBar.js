@@ -20,7 +20,7 @@ import { isLoggedIn, logoutUser } from "../helpers/authHelper";
 import UserAvatar from "./UserAvatar";
 import HorizontalStack from "./util/HorizontalStack";
 
-const NavBar = () => {
+const Navbar = () => {
   const navigate = useNavigate();
   const user = isLoggedIn();
   const theme = useTheme();
@@ -155,5 +155,5 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;
 
