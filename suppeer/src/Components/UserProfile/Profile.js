@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import {
+	Button,
+	Input,
+	Avatar,
+} from "@chakra-ui/react";
+import React, { useRef, useEffect, useState } from 'react';
 import { isLoggedIn } from '../../helpers/authHelper';
+import usePreviewImg from '../../hooks/userPreviewImg';
 
 function UserProfile() {
     const currentuser = isLoggedIn();
@@ -8,31 +14,19 @@ function UserProfile() {
         username: '',
         email: '',
         biography: '',
+        pic: '',
         skills: '',
         projects: '',
-        photo: ''
     });
     
+    const fileRef = useRef(null);
+	const [updating, setUpdating] = useState(false);
+
+	const { handleImageChange, imgUrl } = usePreviewImg();
+
     // Load profile data from local storage when the component mounts
     useEffect(() => {
-        /*const storedProfile = localStorage.getItem('userProfile');
-        if (storedProfile) {
-            setProfile(JSON.parse(storedProfile));
-        }*/
-            /*const handleStorageUpdate = () => {
-                setProfile(JSON.parse(localStorage.getItem('userProfile')));
-            };
-    
-            window.addEventListener('storageUpdated', handleStorageUpdate);
-    
-            return () => {
-                window.removeEventListener('storageUpdated', handleStorageUpdate);
-            };*/
             const loadProfile = async () => {
-                /*const localData = localStorage.getItem('userProfile');
-                if (localData) {
-                    setProfile(JSON.parse(localData));
-                } else {*/
                     try {
                         const response = await fetch(`/api/users/profile/${userId}`);
                         const data = await response.json();
@@ -62,29 +56,23 @@ function UserProfile() {
         }));
     };
 
-    // Handle image change
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setProfile(prevProfile => ({
-                ...prevProfile,
-                photo: reader.result
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
     // Handle form submission
     const handleSubmit = async(e) => {
         e.preventDefault();
-        //localStorage.setItem('userProfile', JSON.stringify(profile));
-        //alert('Profile saved!');
+        if (updating) return;
+		setUpdating(true);
+        
+    const profileData = { ...profile };
+        if (profile.pic !== '') { // Only include 'pic' in the body if it's not empty
+        profileData.pic = imgUrl;
+    } else {
+        delete profileData.pic; // remove 'pic' key if the photo is being deleted
+    }
         try {
             const response = await fetch(`/api/users/profile/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(profile)
+                body: JSON.stringify(profileData),
             });
             const data = await response.json();
             if (response.ok) {
@@ -97,15 +85,35 @@ function UserProfile() {
         } catch (error) {
             console.error('Error updating profile:', error);
             alert('Error updating profile: ' + error.message);
-        }
+        } finally {
+            setUpdating(false);
+          }
     };
 
     // Delete photo handler
-    const handleDeletePhoto = () => {
+    const handleDeletePhoto = async() => {
         setProfile(prevProfile => ({
             ...prevProfile,
-            photo: ''
+            pic: ''
         }));
+        try {
+            const response = await fetch(`/api/users/profile/${userId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ...profile, pic: '' })
+            });
+            const data = await response.json();
+            if (response.ok) {
+              console.log('Photo deleted successfully:', data);
+              localStorage.setItem('userProfile', JSON.stringify({ ...profile, pic: '' }));
+              alert('Photo deleted successfully!');
+            } else {
+              throw new Error(data.message);
+            }
+          } catch (error) {
+            console.error('Error deleting photo:', error);
+            alert('Error deleting photo: ' + error.message);
+          }
     };
 
     return (
@@ -113,14 +121,24 @@ function UserProfile() {
             <h2>User Profile</h2>
             <label>
                 Upload Photo:
-                <input type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />
+                {/*<input type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />*/}
             </label>
-            {profile.photo && (
+		    <Avatar size='xs' style={{ width: 100, height: 100 }} src={ imgUrl || profile.pic } />
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+			<Button onClick={() => fileRef.current.click()}>
+				Change Photo
+			</Button>
+			<Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
+            <Button onClick={handleDeletePhoto}>
+                Delete Photo
+            </Button>
+            </div>
+            {/*{profile.pic && (
                 <div>
-                    <img src={profile.photo} alt="Uploaded" style={{ width: 100, height: 100 }} />
+                    <img src={profile.pic} alt="Uploaded" style={{ width: 100, height: 100 }} />
                     <button type="button" onClick={handleDeletePhoto}>Delete Photo</button>
                 </div>
-            )}
+            )}*/}
             <label>
                 Username:
                 <input type="text" name="username" value={profile.username} onChange={handleChange} />

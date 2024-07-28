@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
 const Post = require("../models/post.model");
 const PostLike = require("../models/postLike.model");
+const Community = require("../models/community.model");
 const Comment = require("../models/comment.model");
 const paginate = require("../util/paginate");
 const cooldown = new Set();
-const cloudinary = require('cloudinary').v2;
 USER_LIKES_PAGE_SIZE = 9;
 
 const createPost = async (req, res) => {
 	try {
-		const { title, content, userId } = req.body;
-		let { img } = req.body;
+		const { title, content, userId, communityId} = req.body;
 
 		if (!(title && content)) {
 			throw new Error("All input required");
@@ -22,23 +21,26 @@ const createPost = async (req, res) => {
 			);
 		}
 
-		if (img) {
-			const uploadedResponse = await cloudinary.uploader.upload(img);
-			img = uploadedResponse.secure_url;
-		}
-
 		cooldown.add(userId);
 		setTimeout(() => {
 			cooldown.delete(userId);
 		}, 60000);
+        
+		const community = await Community.findById(communityId);
+
+        if (!community) {
+          return res.status(404).json({ message: "community not found" });
+        }
 
 		const post = await Post.create({
 			title,
 			content,
 			poster: userId,
-			img,
+			community: communityId,
 		});
-
+        
+		community.posts.push(post);
+        await community.save();
 		res.json(post);
 	} catch (err) {
 		return res.status(400).json({ error: err.message });
@@ -56,6 +58,7 @@ const getPost = async (req, res) => {
 
 		const post = await Post.findById(postId)
 			.populate("poster", "-password")
+			.populate("community")
 			.lean();
 
 		if (!post) {
@@ -77,7 +80,7 @@ const getPost = async (req, res) => {
 const updatePost = async (req, res) => {
 	try {
 		const postId = req.params.id;
-		const { content, userId, isAdmin } = req.body;
+		const { title, content, userId, isAdmin } = req.body;
 
 		const post = await Post.findById(postId);
 
@@ -88,13 +91,16 @@ const updatePost = async (req, res) => {
 		if (post.poster != userId && !isAdmin) {
 			throw new Error("Not authorized to update post");
 		}
-
+        
+		post.title = title;
 		post.content = content;
 		post.edited = true;
 
 		await post.save();
 
-		return res.json(post);
+		return res
+        .status(200)
+        .json({ message: "Post updated successfully", post });
 	} catch (err) {
 		return res.status(400).json({ error: err.message });
 	}
@@ -113,11 +119,6 @@ const deletePost = async (req, res) => {
 
 		if (post.poster != userId && !isAdmin) {
 			throw new Error("Not authorized to delete post");
-		}
-
-		if (post.img) {
-			const imgId = post.img.split("/").pop().split(".")[0];
-			await cloudinary.uploader.destroy(imgId);
 		}
 
 		const deletedPost = await Post.findByIdAndDelete(postId);
@@ -145,6 +146,7 @@ const getPosts = async (req, res) => {
 
 		let posts = await Post.find()
 			.populate("poster", "-password")
+			.populate("community")
 			.sort(sortBy)
 			.lean();
 
@@ -175,42 +177,181 @@ const getPosts = async (req, res) => {
 	}
 };
 
+
 const setLiked = async (posts, userId) => {
-	let searchCondition = {};
-	if (userId) searchCondition = { userId };
-  
-	const userPostLikes = await PostLike.find(searchCondition); //userId needed
-  
-	posts.forEach((post) => {
-	  userPostLikes.forEach((userPostLike) => {
-		if (userPostLike.postId.equals(post._id)) {
-		  post.liked = true;
-		  return;
-		}
-	  });
-	});
-  };
-  
-const enrichWithUserLikePreview = async (posts) => {
-	const postMap = posts.reduce((result, post) => {
-	  result[post._id] = post;
-	  return result;
-	}, {});
-  
-	const postLikes = await PostLike.find({
-	  postId: { $in: Object.keys(postMap) },
-	})
-	  .limit(200)
-	  .populate("userId", "username");
-  
-	postLikes.forEach((postLike) => {
-	  const post = postMap[postLike.postId];
-	  if (!post.userLikePreview) {
-		post.userLikePreview = [];
+		let searchCondition = {};
+		if (userId) searchCondition = { userId };
+	  
+		const userPostLikes = await PostLike.find(searchCondition) || []; //userId needed
+		
+		if (posts && userPostLikes) {
+		  posts.forEach((post) => {
+			  userPostLikes.forEach((userPostLike) => {
+				  if (userPostLike && userPostLike.postId && post && post._id && userPostLike.postId.equals(post._id)) {
+					  post.liked = true;
+				  }
+			  });
+		  });
 	  }
-	  post.userLikePreview.push(postLike.userId);
-	});
-};
+	  };
+	  
+const enrichWithUserLikePreview = async (posts) => {
+		const postMap = posts.reduce((result, post) => {
+		  result[post._id] = post;
+		  return result;
+		}, {});
+	  
+		const postLikes = await PostLike.find({
+		  postId: { $in: Object.keys(postMap) },
+		})
+		  .limit(200)
+		  .populate("userId", "username");
+	  
+		postLikes.forEach((postLike) => {
+		  const post = postMap[postLike.postId];
+		  if (!post.userLikePreview) {
+			post.userLikePreview = [];
+		  }
+		  post.userLikePreview.push(postLike.userId);
+		});
+	  };
+	  
+const getUserLikedPosts = async (req, res) => {
+		try {
+		  const likerId = req.params.id;
+		  const { userId } = req.body;
+		  let { page, sortBy } = req.query;
+	  
+		  if (!sortBy) sortBy = "-createdAt";
+		  if (!page) page = 1;
+	  
+		  let posts = await PostLike.find({ userId: likerId })
+			.sort(sortBy)
+			.populate({ path: "postId", populate: { path: "poster" } })
+			.populate({ path: "postId", populate: { path: "community" } })
+			.lean();
+		  
+		  if (!posts) posts = [];  
+		  posts = paginate(posts, 10, page);
+	  
+		  const count = posts.length;
+	  
+		  let responsePosts = [];
+		  posts.forEach((post) => {
+			if (post && post.postId) {
+			  responsePosts.push(post.postId);
+			}
+		  });
+	  
+		  if (userId && responsePosts.length > 0) {
+			await setLiked(responsePosts, userId);
+		  }
+	  
+		  await enrichWithUserLikePreview(responsePosts);
+	  
+		  return res.json({ data: responsePosts, count });
+		} catch (err) {
+		  console.log(err);
+		  return res.status(400).json({ error: err.message });
+		}
+	};
+
+const likePost = async (req, res) => {
+		try {
+		  const postId = req.params.id;
+		  const { userId } = req.body;
+	  
+		  const post = await Post.findById(postId);
+	  
+		  if (!post) {
+			throw new Error("Post does not exist");
+		  }
+	  
+		  const existingPostLike = await PostLike.findOne({ postId, userId });
+	  
+		  if (existingPostLike) {
+			throw new Error("Post is already liked");
+		  }
+	  
+		  await PostLike.create({
+			postId,
+			userId,
+		  });
+	  
+		  post.likeCount = (await PostLike.find({ postId })).length;
+	  
+		  await post.save();
+	  
+		  return res.json({ success: true });
+		} catch (err) {
+		  return res.status(400).json({ error: err.message });
+		}
+	  };
+	  
+const unlikePost = async (req, res) => {
+		try {
+		  const postId = req.params.id;
+		  const { userId } = req.body;
+	  
+		  const post = await Post.findById(postId);
+	  
+		  if (!post) {
+			throw new Error("Post does not exist");
+		  }
+	  
+		  const deletedLike = await PostLike.findOneAndDelete({ postId: postId, userId: userId });
+		  
+		  if (!deletedLike) {
+			  throw new Error("Post was not previously liked by this user");
+		  }
+		  const likesCount = (await PostLike.find({ postId })).length;
+		  post.likeCount = likesCount;
+	  
+		  await post.save();
+	  
+		  return res.json({ success: true, likeCount: likesCount });
+		} catch (err) {
+		  console.log(err);
+		  return res.status(400).json({ error: err.message });
+		}
+	  };
+	  
+const getUserLikes = async (req, res) => {
+		try {
+		  const { postId } = req.params;
+		  const { anchor } = req.query;
+	  
+		  const postLikesQuery = PostLike.find({ postId: postId })
+			.sort("_id")
+			.limit(USER_LIKES_PAGE_SIZE + 1)
+			.populate("userId", "username")
+			//.populate("community");
+	  
+		  if (anchor) {
+			postLikesQuery.where("_id").gt(anchor);
+		  }
+	  
+		  const postLikes = await postLikesQuery.exec();
+	  
+		  const hasMorePages = postLikes.length > USER_LIKES_PAGE_SIZE;
+	  
+		  if (hasMorePages) postLikes.pop();
+	  
+		  const userLikes = postLikes.map((like) => {
+			return {
+			  id: like._id,
+			  username: like.userId.username,
+			};
+		  });
+	  
+		  return res
+			.status(400)
+			.json({ userLikes: userLikes, hasMorePages, success: true });
+		} catch (err) {
+		  console.log(err);
+		  return res.status(400).json({ error: err.message });
+		}
+	  };
 
 module.exports = {
 	getPost,
@@ -218,4 +359,8 @@ module.exports = {
 	createPost,
 	updatePost,
 	deletePost,
+	likePost,
+    unlikePost,
+    getUserLikedPosts,
+    getUserLikes,
 };

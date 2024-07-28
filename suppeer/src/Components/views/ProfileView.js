@@ -10,10 +10,12 @@ import FindUsers from "../FindUsers";
 import GridLayout from "../GridLayout";
 import Loading from "../Loading";
 import MobileProfile from "../MobileProfile";
-import Navbar from "../NavBar";
+import Navbar from "../Navbar";
 import PostBrowser from "../Post/PostBrowser";
 import Profile from "../Profile";
 import ProfileTabs from "../ProfileTabs";
+import LeftSidebar from "../LeftSidebar";
+import Footer from "../Footer";
 
 const ProfileView = () => {
   const [loading, setLoading] = useState(true);
@@ -96,7 +98,8 @@ const ProfileView = () => {
       <Navbar />
 
       <GridLayout
-        left={
+        left={<LeftSidebar/>}
+        middle={
           <>
             <MobileProfile
               profile={profile}
@@ -132,6 +135,7 @@ const ProfileView = () => {
             />
 
             <FindUsers />
+            <Footer />
           </Stack>
         }
       />

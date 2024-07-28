@@ -19,7 +19,7 @@ import PostContentBox from "./PostContentBox";
 import HorizontalStack from "../util/HorizontalStack";
 
 import {} from "react-icons/ai";
-import ContentUpdateEditor from "../Content/ContentUpdateEditor";
+import ContentUpdateEditor from "../Content/PostCommentEditor.js";
 import Markdown from "../Markdown";
 
 import "../../styles/postCard.css";
@@ -74,10 +74,11 @@ const PostCard = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
+    const title = e.target.title.value;
     const content = e.target.content.value;
-    await updatePost(post._id, isLoggedIn(), { content });
-    setPost({ ...post, content, edited: true });
+    await updatePost(post._id, isLoggedIn(), { title, content });
+    setPost({ ...post, title, content, edited: true });
     setEditing(false);
   };
 
@@ -164,6 +165,7 @@ const PostCard = (props) => {
               (editing ? (
                 <ContentUpdateEditor
                   handleSubmit={handleSubmit}
+                  originalTitle={post.title}
                   originalContent={post.content}
                 />
               ) : (

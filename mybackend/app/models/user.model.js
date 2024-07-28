@@ -22,13 +22,19 @@ const userSchema = new mongoose.Schema({
     default: "",
     maxLength: [250, "Must be at most 250 characters long"],
   },
+  subscribedSubs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "community",
+    },
+  ],
   isAdmin: {
     type: Boolean,
     default: false,
   },
   pic: {
     type: String,
-    default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    default: "",
   },
   skills:{
     type: String,

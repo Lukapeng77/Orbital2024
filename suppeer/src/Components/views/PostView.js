@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import GoBack from "../GoBack";
 import GridLayout from "../GridLayout";
 import Loading from "../Loading";
-import Navbar from "../NavBar";
+import Navbar from "../Navbar";
 import PostCard from "../Post/PostCard";
 import Sidebar from "../Sidebar";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import { getPost } from "../../api/posts";
 import Comments from "../Comment/Comments";
 import ErrorAlert from "../ErrorAlert";
 import { isLoggedIn } from "../../helpers/authHelper";
+import LeftSidebar from "../LeftSidebar";
 
 const PostView = () => {
   const params = useParams();
@@ -40,7 +41,8 @@ const PostView = () => {
       <Navbar />
       <GoBack />
       <GridLayout
-        left={
+        left={<LeftSidebar />}
+        middle={
           loading ? (
             <Loading />
           ) : post ? (

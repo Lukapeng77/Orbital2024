@@ -12,10 +12,15 @@ import ProfileView from './Components/views/ProfileView';
 import AuthView from './Components/views/AuthView';
 import { isLoggedIn } from './helpers/authHelper';
 import Dashboard from './Components/views/Dashboard';
+import { CommunityView } from './Components/views/CommunityView';
+import MessengerView from './Components/views/MessengerView';
+import { initiateSocketConnection } from "./helpers/socketHelper";
 
 function App() {
 	const user = isLoggedIn;
 	console.log(user);
+	initiateSocketConnection();
+
 	return (
 		<Router>
 		<Routes>
@@ -25,11 +30,13 @@ function App() {
 		<Route path="/auth" element ={user ? <AuthView /> : <Navigate to='/'/>} />
 		<Route path="/posts/create" element={user ? <PrivateRoute><CreatePostView /></PrivateRoute> : <Navigate to='/auth'/>} />
 
-		<Route path="/users/:id" element={user ? <ProfileView />: <Navigate to='/auth'/>} />
+		<Route path="/users/:id" element={user ? <ProfileView /> : <Navigate to='/auth'/>} />
 		<Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to='/auth'/>} /> 
-		<Route path="/posts/:id" element={<PostView />} /> 
-        <Route path="/search" element={<SearchView />} />
+		<Route path="/posts/:id" element={user ? <PostView />: <Navigate to='/auth'/>} /> 
+        <Route path="/search" element={user ? <SearchView /> : <Navigate to='/auth'/>} />
         <Route path="/profile" element={user ? <UserProfile/> : <Navigate to='/auth'/>} /> 
+		<Route path="/messenger" element={user ? <PrivateRoute><MessengerView /></PrivateRoute> : <Navigate to='/auth'/>} />
+		<Route path="/community/:communityId" element={<CommunityView />} />
 		</Routes>
 		</Router>
 	);

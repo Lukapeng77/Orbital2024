@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ChakraProvider } from "@chakra-ui/react";
+import { Toaster } from 'react-hot-toast';
 
 const theme = createTheme({
   palette: {
@@ -15,9 +17,12 @@ const theme = createTheme({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <ChakraProvider>
   <ThemeProvider theme={theme}>
+      <Toaster/>
     <App />
   </ThemeProvider>
+  </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

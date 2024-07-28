@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import React, { useState } from "react";
-import NavBar from "../NavBar";
+import NavBar from "../Navbar";
 import '../../styles/UserProfile.css'
 import Profile from "./Profile"
 

@@ -194,6 +194,7 @@ const updateUserProfile = async (req, res) => {
     try {
       const userId = req.params.id;
       const user = await User.findById(userId);
+      
       if (user) {
           user.username = req.body.username || user.username;
           user.email = req.body.email || user.email;
@@ -201,7 +202,7 @@ const updateUserProfile = async (req, res) => {
           user.pic = req.body.pic || user.pic;
           user.skills = req.body.skills || user.skills;
           user.projects = req.body.projects || user.projects;
-
+          
           const updatedUser = await user.save();
           res.json(updatedUser);
       } else {

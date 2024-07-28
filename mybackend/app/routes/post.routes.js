@@ -10,4 +10,13 @@ router.get("/:id", optionallyVerifyToken, postControllers.getPost);
 router.patch("/:id", verifyToken, postControllers.updatePost);
 router.delete("/:id", verifyToken, postControllers.deletePost);
 
+router.post("/like/:id", verifyToken, postControllers.likePost);
+router.delete("/like/:id", verifyToken, postControllers.unlikePost);
+router.get(
+  "/liked/:id",
+  optionallyVerifyToken,
+  postControllers.getUserLikedPosts
+);
+router.get("/like/:postId/users", postControllers.getUserLikes);
+
 module.exports = router;

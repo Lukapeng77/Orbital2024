@@ -12,6 +12,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ForumIcon from '@mui/icons-material/Forum';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import TextsmsIcon from '@mui/icons-material/Textsms';
 
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -115,9 +116,13 @@ const NavBar = () => {
             <IconButton component={Link} to={"/profile"}>
                 <AccountBoxIcon />
               </IconButton>
-              <IconButton component={Link} to={"/posts/create"}>
+              <IconButton component={Link} to={"/dashboard"}>
                 <ForumIcon />
+                </IconButton>
+              <IconButton component={Link} to={"/messenger"}>
+                <TextsmsIcon />
               </IconButton>
+              
               <IconButton component={Link}  to={"/users/" + username}>
                 <UserAvatar width={30} height={30} username={user.username} />
               </IconButton>

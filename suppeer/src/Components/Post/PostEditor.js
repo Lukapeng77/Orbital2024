@@ -1,15 +1,16 @@
 import {
   Button,
   Card,
-  Link,
+  Select,
   Stack,
   TextField,
-  Typography,
+  Typography, FormControl, InputLabel, MenuItem
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../api/posts";
+import { getCommunities } from "../../api/communities";
 import ErrorAlert from "../ErrorAlert";
 import { isLoggedIn } from "../../helpers/authHelper";
 import HorizontalStack from "../util/HorizontalStack";
@@ -22,12 +23,23 @@ const PostEditor = () => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    Img:"",
   });
-
+  
+  const [community, setCommunity] = useState("");
+  const [communities, setCommunities] = useState([]);
   const [serverError, setServerError] = useState("");
   const [errors, setErrors] = useState({});
   const user = isLoggedIn();
+
+  useEffect(() => {
+    getCommunities().then((data) => {
+      setCommunities(data.communities);
+    });
+  }, [community, setCommunity]);
+
+  const onChange = (e) => {
+    setCommunity(e.target.value);
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,7 +51,12 @@ const PostEditor = () => {
     e.preventDefault();
 
     setLoading(true);
-    const data = await createPost(formData, isLoggedIn());
+    const data = await createPost({
+      title: formData.title,
+      content: formData.content,
+      communityId: community, 
+    }, isLoggedIn());
+
     setLoading(false);
     if (data && data.error) {
       setServerError(data.error);
@@ -71,6 +88,27 @@ const PostEditor = () => {
             Markdown Help
           </a>
         </Typography>
+
+      <FormControl variant="outlined" sx={{ minWidth: 120 }}>
+      <InputLabel id= "communityId">Choose a community</InputLabel>
+      <Select
+        labelId="communityId"
+        id="community"
+        value={community}
+        onChange={onChange}
+        label="Choose a community"
+        sx={{ border: 2, borderColor: 'grey.300' }}
+      >
+        <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+        {communities.map((item) => (
+          <MenuItem key={item._id} value={item._id}>
+            {item.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
 
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
