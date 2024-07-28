@@ -6,6 +6,7 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 import { isLoggedIn } from '../../helpers/authHelper';
 import usePreviewImg from '../../hooks/userPreviewImg';
+import { BASE_URL } from "../../config";
 
 function UserProfile() {
     const currentuser = isLoggedIn();
@@ -28,7 +29,7 @@ function UserProfile() {
     useEffect(() => {
             const loadProfile = async () => {
                     try {
-                        const response = await fetch(`/api/users/profile/${userId}`);
+                        const response = await fetch(BASE_URL + `/api/users/profile/${userId}`);
                         const data = await response.json();
                         if (response.ok) {
                             setProfile(data);
@@ -69,7 +70,7 @@ function UserProfile() {
         delete profileData.pic; // remove 'pic' key if the photo is being deleted
     }
         try {
-            const response = await fetch(`/api/users/profile/${userId}`, {
+            const response = await fetch(BASE_URL + `/api/users/profile/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(profileData),
@@ -97,7 +98,7 @@ function UserProfile() {
             pic: ''
         }));
         try {
-            const response = await fetch(`/api/users/profile/${userId}`, {
+            const response = await fetch(BASE_URL + `/api/users/profile/${userId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ...profile, pic: '' })
@@ -121,7 +122,6 @@ function UserProfile() {
             <h2>User Profile</h2>
             <label>
                 Upload Photo:
-                {/*<input type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />*/}
             </label>
 		    <Avatar size='xs' style={{ width: 100, height: 100 }} src={ imgUrl || profile.pic } />
             <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
@@ -133,12 +133,6 @@ function UserProfile() {
                 Delete Photo
             </Button>
             </div>
-            {/*{profile.pic && (
-                <div>
-                    <img src={profile.pic} alt="Uploaded" style={{ width: 100, height: 100 }} />
-                    <button type="button" onClick={handleDeletePhoto}>Delete Photo</button>
-                </div>
-            )}*/}
             <label>
                 Username:
                 <input type="text" name="username" value={profile.username} onChange={handleChange} />

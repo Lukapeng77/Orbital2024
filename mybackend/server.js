@@ -37,7 +37,7 @@ const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
     origin: ["http://localhost:3000", 
-    //  "https://post-it-heroku.herokuapp.com" //to be replaced by the deploy app link
+      "https://orbital2024.onrender.com" 
     ],
   },
 });
@@ -46,10 +46,7 @@ io.use(authSocket);
 io.on("connection", (socket) => socketServer(socket));
 
 db.mongoose
-	.connect(db.url, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	})
+	.connect(db.url)
 	.then(() => {
 		console.log("Connected to the database!");
 	})
