@@ -36,8 +36,7 @@ app.use("/api/messages", messages);
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: ["http://localhost:3000", 
-      "https://orbital2024.onrender.com" 
+    origin: ["http://localhost:3000", "https://orbital2024.onrender.com" 
     ],
   },
 });
@@ -61,4 +60,10 @@ app.listen(PORT, () => {
 	console.log(`Server running on port http://localhost:${PORT}`);
 });
 
-
+if (process.env.NODE_ENV == "production") {
+	app.use(express.static(path.join(__dirname, "../suppeer/dist")));
+  
+	app.get("*", (req, res) => {
+	  res.sendFile(path.join(__dirname, "../suppeer/dist", "index.html"));
+	});
+  }
