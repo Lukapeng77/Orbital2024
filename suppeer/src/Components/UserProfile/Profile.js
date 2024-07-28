@@ -6,7 +6,6 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 import { isLoggedIn } from '../../helpers/authHelper';
 import usePreviewImg from '../../hooks/userPreviewImg';
-import { BASE_URL } from "../../config";
 
 function UserProfile() {
     const currentuser = isLoggedIn();
@@ -29,7 +28,7 @@ function UserProfile() {
     useEffect(() => {
             const loadProfile = async () => {
                     try {
-                        const response = await fetch(BASE_URL + `/api/users/profile/${userId}`);
+                        const response = await fetch( `/api/users/profile/${userId}`);
                         const data = await response.json();
                         if (response.ok) {
                             setProfile(data);
@@ -70,7 +69,7 @@ function UserProfile() {
         delete profileData.pic; // remove 'pic' key if the photo is being deleted
     }
         try {
-            const response = await fetch(BASE_URL + `/api/users/profile/${userId}`, {
+            const response = await fetch(`/api/users/profile/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(profileData),
@@ -98,7 +97,7 @@ function UserProfile() {
             pic: ''
         }));
         try {
-            const response = await fetch(BASE_URL + `/api/users/profile/${userId}`, {
+            const response = await fetch(`/api/users/profile/${userId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ...profile, pic: '' })
