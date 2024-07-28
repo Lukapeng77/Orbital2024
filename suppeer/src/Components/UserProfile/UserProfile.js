@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
-import React, { useState } from "react";
-import NavBar from "../Navbar";
+import React from "react";
+import Navbar from "../Navbar";
 import '../../styles/UserProfile.css'
 import Profile from "./Profile"
 
@@ -8,7 +8,7 @@ const UserProfile = () => {
 
   return (
     <Container>
-    <NavBar />
+    <Navbar />
     <Profile/>
   </Container>
 );
