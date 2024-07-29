@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# SUP Peer
+SUPPeer is a website to provide college students with personalized academic support through peer-to-peer interaction learning mode and educator involvement.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![SUP Peer Logo](suppeer/src/Components/suppeer_logo.webp)
 
-## Available Scripts
+## Features
+1)	User registration and identity management system: 
+●	Implement a robust system allowing students to register and manage their accounts online.
+●	Enable role-switching functionality where students can toggle between being tutors and tutees.
 
-In the project directory, you can run:
+2)	Professor and Teaching Assistant Involvement:
+●	A dedicated section for academic staff to contribute by answering questions, providing additional explanations, and offering corrective feedback on student postings.
+●	Facilitate direct interaction between students and educators to enhance learning and provide personalized support. 
 
-### `npm start`
+3)	Real-time Interaction and Peer Support: 
+●	Create features for real-time interactions such as chat rooms or instant messaging to facilitate direct communication among users.
+●	Implement a system where students can schedule and conduct peer tutoring sessions, both in real-time and asynchronously.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation and usage
+1) Clone this repository  
+```
+git clone https://github.com/Lukapeng77/Orbital2024.git
+```
+2) Install dependencies  
+```
+cd Orbital2024/mybackend
+npm install
+cd ../suppeer
+npm install
+```
+3) Create .env in root directory
+```
+cd ..
+touch .env
+```
+4) Configure environment variables in your new .env file. To acquire your MONGO_URI, create a cluster for free over at https://www.mongodb.com/. The TOKEN_KEY is a secret key of your choosing, you can feel free to set up one.
+```
+MONGO_URI= <YOUR_MONGO_URI> 
+TOKEN_KEY= <YOUR_TOKEN_KEY>
+PORT= 3001 
+```
+5) Run the server
+```
+cd Orbital2024/mybackend
+npm start
+```
+6) Start a new terminal and run react's development server
+```
+cd Orbital2024
+cd suppeer
+npm start
+```
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
