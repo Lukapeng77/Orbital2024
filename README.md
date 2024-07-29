@@ -1,7 +1,8 @@
 # SUP Peer
 SUPPeer is a website to provide college students with personalized academic support through peer-to-peer interaction learning mode and educator involvement.
 
-![SUP Peer Logo](suppeer/src/Components/suppeer_logo.webp)
+![SUP Peer Logo](<img src="suppeer/src/Components/suppeer_logo.webp" width="300" alt="SUP Peer Logo">
+)
 
 ## Features
 1)	User registration and identity management system: 
