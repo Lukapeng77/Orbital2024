@@ -1,21 +1,21 @@
 # SUP Peer
 SUPPeer is a website to provide college students with personalized academic support through peer-to-peer interaction learning mode and educator involvement.
 
-![SUP Peer Logo](suppeer/src/Components/suppeer_logo.webp width="300" alt="SUP Peer Logo"
+![SUP Peer Logo](suppeer/src/Components/suppeer_logo.webp width="300" 
 )
 
 ## Features
 1)	**User registration and identity management system:**
-●-Implement a robust system allowing students to register and manage their accounts online.
-●-Enable role-switching functionality where students can toggle between being tutors and tutees.
+-Implement a robust system allowing students to register and manage their accounts online.
+-Enable role-switching functionality where students can toggle between being tutors and tutees.
 
 2)	**Professor and Teaching Assistant Involvement:**
-●-A dedicated section for academic staff to contribute by answering questions, providing additional explanations, and offering corrective feedback on student postings.
-●-Facilitate direct interaction between students and educators to enhance learning and provide personalized support. 
+-A dedicated section for academic staff to contribute by answering questions, providing additional explanations, and offering corrective feedback on student postings.
+-Facilitate direct interaction between students and educators to enhance learning and provide personalized support. 
 
 3)	**Real-time Interaction and Peer Support:** 
-●-Create features for real-time interactions such as chat rooms or instant messaging to facilitate direct communication among users.
-●-Implement a system where students can schedule and conduct peer tutoring sessions, both in real-time and asynchronously.
+-Create features for real-time interactions such as chat rooms or instant messaging to facilitate direct communication among users.
+-Implement a system where students can schedule and conduct peer tutoring sessions, both in real-time and asynchronously.
 
 
 ## Installation and usage
