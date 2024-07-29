@@ -37,7 +37,7 @@ const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
     origin: ["http://localhost:3000", 
-		//"https://orbital2024.onrender.com" 
+		"https://orbital2024.onrender.com" 
     ],
   },
 });
@@ -62,9 +62,9 @@ app.listen(PORT, () => {
 });
 
 if (process.env.NODE_ENV == "production") {
-	app.use(express.static(path.join(__dirname, "../suppeer/public")));
+	app.use(express.static(path.join(__dirname, "../suppeer/build")));
   
 	app.get("*", (req, res) => {
-	  res.sendFile(path.join(__dirname, "../suppeer/public", "index.html"));
+	  res.sendFile(path.join(__dirname, "../suppeer/build", "index.html"));
 	});
   }
