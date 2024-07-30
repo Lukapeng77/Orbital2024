@@ -24,9 +24,9 @@ git clone https://github.com/Lukapeng77/Orbital2024.git
 ```
 2) Install dependencies  
 ```
-cd Orbital2024/mybackend
+cd Orbital2024
 npm install
-cd ../suppeer
+cd suppeer
 npm install
 ```
 3) Create .env in root directory
@@ -42,7 +42,7 @@ PORT= 3001
 ```
 5) Run the server
 ```
-cd Orbital2024/mybackend
+cd Orbital2024
 npm start
 ```
 6) Start a new terminal and run react's development server
