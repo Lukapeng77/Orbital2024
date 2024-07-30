@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">SUP Peer✨️</h1>
 
-# SUP Peer
+## Introduction
 SUPPeer is a website to provide college students with personalized academic support through peer-to-peer interaction learning mode and educator involvement.
 
 ## Tech Stack
