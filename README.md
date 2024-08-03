@@ -1,7 +1,7 @@
 <p align="center">
     <img alt="SUP Peer" src="./suppeer/src/Components/suppeer_logo.webp" width="125" />
 </p>
-<h1 align="center">SUP Peer✨️</h1>
+<h1 align="center">SUP Peer</h1>
 
 ## Introduction
 SUPPeer is a website to provide college students with personalized academic support through peer-to-peer interaction learning mode and educator involvement.
