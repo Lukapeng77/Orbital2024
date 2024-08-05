@@ -37,7 +37,7 @@ const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
     origin: ["http://localhost:3000", 
-		//"https://orbital2024.onrender.com" 
+		"https://supper-a0aa5662728b.herokuapp.com"
     ],
   },
 });
