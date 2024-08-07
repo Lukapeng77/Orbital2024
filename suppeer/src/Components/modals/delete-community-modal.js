@@ -36,24 +36,6 @@ export const DeleteCommunityModal = ({ communityId }) => {
         <Icon as={AiOutlineDelete} mr={2} />
         <Text fontSize="9pt">Delete</Text>
       </Flex>
-      {/*<Modal isCentered isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
-        <ModalContent>
-          <ModalHeader>Delete Community</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text fontSize={"10pt"} fontWeight={"semibold"} mb={2}>
-              Are you sure you want to delete this community?
-            </Text>
-          </ModalBody>
-          <ModalFooter gap={2}>
-            <Button onClick={onClose} variant={"outline"}>
-              Close
-            </Button>
-            <Button onClick={onSubmit}>Confirm</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>*/}
        <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>Delete Community</DialogTitle>
       <DialogContent>

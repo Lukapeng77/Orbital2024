@@ -11,7 +11,8 @@ const createCommunity = async (req, res) => {
     }
 
     const existingCommunity = await Community.findOne({
-      $or: [{ name }],
+     // $or: [{ name }],
+        name: name 
     });
 
     //console.log("existingCommunity: ", existingCommunity);

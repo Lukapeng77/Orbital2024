@@ -30,6 +30,8 @@ export const SidePostCommunity = () => {
     if (!data.error) {
       toast.success("Community created successfully!");
       onClose();
+    }else{
+      toast.error(data.error);
     }
   };
 
