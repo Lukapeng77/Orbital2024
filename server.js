@@ -1,5 +1,4 @@
 const express = require('express');
-const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require("body-parser");
@@ -45,7 +44,7 @@ const io = require("socket.io")(httpServer, {
 io.use(authSocket);
 io.on("connection", (socket) => socketServer(socket));
 
-db.mongoose
+/*db.mongoose
 	.connect(db.url)
 	.then(() => {
 		console.log("Connected to the database!");
@@ -53,13 +52,23 @@ db.mongoose
 	.catch(err => {
 		console.log("Cannot connect to the database!", err);
 		process.exit();
-	});
+	});*/
+	mongoose.connect(
+		process.env.MONGODB_URI,
+		{ useNewUrlParser: true, useUnifiedTopology: true },
+		() => {
+		  console.log("MongoDB connected");
+		}
+	  );
 
-const PORT = process.env.PORT || 3001;
+/*const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
 	console.log(`Server running on port http://localhost:${PORT}`);
-});
+});*/
+httpServer.listen(process.env.PORT || 3001 , () => {
+	console.log("Listening");
+  });
 
 if (process.env.NODE_ENV == "production") {
 	app.use(express.static(path.join(__dirname, "/suppeer/build")));
