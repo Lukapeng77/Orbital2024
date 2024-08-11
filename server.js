@@ -44,7 +44,7 @@ const io = require("socket.io")(httpServer, {
 io.use(authSocket);
 io.on("connection", (socket) => socketServer(socket));
 
-/*db.mongoose
+db.mongoose
 	.connect(db.url)
 	.then(() => {
 		console.log("Connected to the database!");
@@ -52,22 +52,24 @@ io.on("connection", (socket) => socketServer(socket));
 	.catch(err => {
 		console.log("Cannot connect to the database!", err);
 		process.exit();
-	});*/
-	mongoose.connect(
-		process.env.MONGODB_URI,
-		{ useNewUrlParser: true, useUnifiedTopology: true },
-		() => {
-		  console.log("MongoDB connected");
-		}
-	  );
+	});
+
+/*mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+	app.listen(process.env.PORT, () => {
+	  console.log(`connected to DB & Server running on port`, process.env.PORT)
+	})
+})*/
 
 /*const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
 	console.log(`Server running on port http://localhost:${PORT}`);
 });*/
+
 httpServer.listen(process.env.PORT || 3001 , () => {
 	console.log("Listening");
+   // connect();
   });
 
 if (process.env.NODE_ENV == "production") {
