@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SecondaryLayout from "../layout/secondaryLayout";
+import SecondaryLayout from "../layout/SecondaryLayout";
 import { Layout } from "../layout";
 import About from "../community/about";
 import { CreatePostBtn } from "../community/create-post";

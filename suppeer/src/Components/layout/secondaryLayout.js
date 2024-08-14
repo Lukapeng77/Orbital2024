@@ -3,8 +3,16 @@ import { Box, Flex } from "@chakra-ui/react";
 
 const SecondaryLayout = ({ children, maxWidth }) => {
   return (
-    <Flex justify="center" p="16px 0px" flexDirection={"column"}>
-      <Flex width="95%" justify="center" maxWidth={maxWidth || "860px"}>
+    <Flex justify="center" p="16px 0px" flexDirection="column" alignItems="center">
+      <Flex
+        width="100%"
+        maxWidth={maxWidth || "860px"}
+        justify="center"
+        alignItems="flex-start"
+        flexDirection={{ base: "column", md: "row" }}
+        gap={{ base: "24px", md: "40px" }}
+        p={{ base: "0 16px", md: "0 32px" }}
+      >
         <Flex
           direction="column"
           width={{ base: "100%", md: "65%" }}
@@ -12,7 +20,7 @@ const SecondaryLayout = ({ children, maxWidth }) => {
         >
           {children && children[0]}
         </Flex>
-        
+
         {/* Right Content */}
         <Box
           display={{ base: "none", md: "flex" }}
