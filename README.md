@@ -41,31 +41,30 @@ git clone https://github.com/Lukapeng77/Orbital2024.git
 ```
 2) Install dependencies  
 ```
-cd Orbital2024
+cd Orbital2024/mybackend
 npm install
-cd suppeer
+cd ../suppeer
 npm install
 ```
-3) Create .env in root directory
+3) Create .env in mybackend directory
 ```
-cd ..
+cd ../mybackend
 touch .env
 ```
 4) Configure environment variables in your new .env file. To acquire your MONGODB_URI, create a cluster for free over at https://www.mongodb.com/. The TOKEN_KEY is a secret key of your choosing, you can feel free to set up one.
 ```
-MONGODB_URI= <YOUR_MONGO_URI> 
+MONGODB_URI= <YOUR_MONGODB_URI> 
 TOKEN_KEY= <YOUR_TOKEN_KEY>
 PORT= 3001 
 ```
 5) Run the server
 ```
-cd Orbital2024
+cd Orbital2024/mybackend
 npm start
 ```
 6) Start a new terminal and run react's development server
 ```
-cd Orbital2024
-cd suppeer
+cd Orbital2024/suppeer
 npm start
 ```
 
