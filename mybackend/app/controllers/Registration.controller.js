@@ -1,4 +1,3 @@
-
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const registerRouter = require("express").Router();
