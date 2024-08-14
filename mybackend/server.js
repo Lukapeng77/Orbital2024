@@ -54,20 +54,14 @@ db.mongoose
 		process.exit();
 	});
 
-/*const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-	console.log(`Server running on port http://localhost:${PORT}`);
-});*/
-
 httpServer.listen(process.env.PORT || 3001 , () => {
 	console.log("Listening");
   });
 
-/*if (process.env.NODE_ENV == "production") {
-	app.use(express.static(path.join(__dirname, "/suppeer/build")));
+if (process.env.NODE_ENV == "production") {
+	app.use(express.static(path.join(__dirname, "../suppeer/build")));
   
 	app.get("*", (req, res) => {
-	  res.sendFile(path.join(__dirname, "suppeer/build", "index.html"));
+	  res.sendFile(path.join(__dirname, "../suppeer/build", "index.html"));
 	});
-  }*/
+}

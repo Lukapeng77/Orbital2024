@@ -11,14 +11,14 @@ const createCommunity = async (req, res) => {
     }
 
     const existingCommunity = await Community.findOne({
-     // $or: [{ name }],
+      // $or: [{ name }],
         name: name 
     });
 
     //console.log("existingCommunity: ", existingCommunity);
 
     if (existingCommunity) {
-      return res.status(400).json({ error: "Community name must be unique" });
+      return res.status(400).json({ error: "Community name already exists!" });
     }
 
     const community = await Community.create({
@@ -138,11 +138,6 @@ console.log(posts)
 
     const userId = req.body.userId;
     const isAdmin = req.body.isAdmin;
-    // if (community.admin.toString() !== userId && !isAdmin) {
-    //   return res.status(403).json({
-    //     error: "Permission denied - You are not the admin of this community",
-    //   });
-    // }
 
     await Community.deleteOne({ _id: communityId });
     await Post.deleteMany({ community: communityId });
@@ -165,11 +160,6 @@ const updatedCommunity = async (req, res) => {
     }
 
     const userId = req.body.userId;
-    // if (community.admin.toString() !== userId) {
-    //   return res.status(403).json({
-    //     error: "Permission denied - You are not the admin of this community",
-    //   });
-    // }
 
     community.name = name || community.name;
     community.bio = bio || community.bio;

@@ -1,5 +1,3 @@
-
-
 module.exports = app => {
     const user = require("../controllers/Login.controller");
   
