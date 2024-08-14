@@ -3,8 +3,14 @@
 </p>
 <h1 align="center">SUP Peer</h1>
 
-## Introduction
-SUPPeer is a website to provide college students with personalized academic support through peer-to-peer interaction learning mode and educator involvement.
+## Motivation
+> Due to the pandemic in 2020, most of the courses were conducted online. Now courses are also recorded most of the time, while the recording can be convenient for watch and review, the worries about distraction and lack of interaction caused by online learning still exist. 
+> Focusing on the pain points mentioned above, we came up with a new learning mode in which we called “peer helps peer”. Our aim is to design a website for students to get academic support mutually. On this platform, students can switch their identities between tutors and tutees. Through the implementation of peer-to-peer interactions and educator involvement, our goal is to empower students to take charge of their learning journey, overcome obstacles with the support of their peers, and achieve academic success. 
+
+## Aim
+> To help students get more personalized academic assistance, we hope to provide a platform for students to communicate and support each other. On this platform, students can be tutors and tutees. If students need academic teaching help, they can post the demand for the corresponding modules on the platform and seek tutors under this post. 
+> Besides, students can also ask basic or general questions that do not require extra tutoring, like study tips or good study habits. They can see and answer other peers’ questions as well. For professors and teaching staff, they can afford time to give additional explanations when they’re available. 
+> Therefore, our platform aims to provide personalized learning experiences and give academic support beyond traditional classroom settings, enabling students to both share and gain knowledge across a wide range of subjects. 
 
 ## Tech Stack
 **Frontend:**
