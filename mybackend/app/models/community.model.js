@@ -10,8 +10,6 @@ const CommunitySchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      //minlength: [4, "Must be at least 4 characters long"],
-      //maxlength: [30, "Must be no more than 30 characters long"],
     },
     bio: {
       type: String,

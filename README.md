@@ -43,7 +43,7 @@ Therefore, our platform aims to provide personalized learning experiences and gi
 - Implement a system where students can schedule and conduct peer tutoring sessions, both in real-time and asynchronously.
 
 
-## Installation and usage
+## Local installation and usage
 1) Clone this repository  
 ```
 git clone https://github.com/Lukapeng77/Orbital2024.git
