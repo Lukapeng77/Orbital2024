@@ -1,0 +1,34 @@
+version: '3'
+services:
+  backend:
+    build: ./mybackend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./mybackend:/usr/src/app
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./suppeer
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./suppeer:/usr/src/app
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+  node_modules:
+  web-root:
+    driver: local
